@@ -110,6 +110,14 @@ workbench.ipynb
 
 examples/*/
 examples/*.csv
+Endoplasmic_Reticulum_Predictions_Example/*/
+Endoplasmic_Reticulum_Predictions_Example/*.csv
+Golgi_Predictions_Example/*/
+Golgi_Predictions_Example/*.csv
+Nuclear_Envelope_Predictions_Example/*/
+Nuclear_Envelope_Predictions_Example/*.csv
+2_Channels_examples/*/
+2_Channels_examples/*.csv
 test_model/
 .editorconfig
 data/*/

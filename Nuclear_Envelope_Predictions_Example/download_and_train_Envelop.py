@@ -57,7 +57,7 @@ data_manifest = data_manifest.iloc[unique_fov_indices]
 
 # SELECT THE FIRST N_IMAGES_TO_DOWNLOAD
 #select images that match the Nuclear_envelope 
-only_Nuclear_envelope = data_manifest.loc[data_manifest['StructureDisplayName']=='Golgi']
+only_Nuclear_envelope = data_manifest.loc[data_manifest['StructureDisplayName']=='Nuclear envelope']
 data_manifest = only_Nuclear_envelope.iloc[0:n_images_to_download]
 
 image_source_paths = data_manifest["SourceReadPath"]
