@@ -6,7 +6,6 @@ from pathlib import Path
 import quilt3
 import pandas as pd
 import numpy as np
-
 from fnet.cli.init import save_default_train_options
 
 
@@ -14,9 +13,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--gpu_id", default=0, type=int, help="GPU to use.")
 parser.add_argument("--n_imgs", default=40, type=int, help="Number of images to use.")
-parser.add_argument(
-    "--n_iterations", default=50000, type=int, help="Number of training iterations."
-)
+parser.add_argument("--n_iterations", default=50000, type=int, help="Number of training iterations.")
 parser.add_argument(
     "--interval_checkpoint",
     default=10000,
@@ -106,7 +103,7 @@ prefs_save_path = Path(prefs_save_path)
 save_default_train_options(prefs_save_path)
 
 with open(prefs_save_path, "r") as fp:
-    prefs = json.load(fp)s
+    prefs = json.load(fp)
 
 # takes about 16 hours, go up to 250,000 for full training
 prefs["n_iter"] = int(args.n_iterations)

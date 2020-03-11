@@ -4,7 +4,7 @@
 # USER MODIFIABLE PARAMETERS:
  PART=gtx1080   	# partition name
  TASKS=28       # 28 cores
- TIME="02:00:00" # 2 hours
+ TIME="32:00:00" # 2 hours
  GPU=1			# 1 GPU
  QOS=normal		# QOS Name
 ########################################

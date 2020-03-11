@@ -1,37 +1,22 @@
 import argparse
 import os
 import json
+from pathlib import Path
 
 import quilt3
 import pandas as pd
-from pathlib import Path
-
+import numpy as np
 from fnet.cli.init import save_default_train_options
 
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument(
-    "--gpu_id",
-    default=0,
-    type=int,
-    help="GPU to use.",
-)
-parser.add_argument(
-    "--n_imgs",
-    default=2,
-    type=int,
-    help="Number of images to use.",
-)
-parser.add_argument(
-    "--n_iterations",
-    default=5E4,
-    type=int,
-    help="Number of training iterations.",
-)
+parser.add_argument("--gpu_id", default=0, type=int, help="GPU to use.")
+parser.add_argument("--n_imgs", default=40, type=int, help="Number of images to use.")
+parser.add_argument("--n_iterations", default=50000, type=int, help="Number of training iterations.")
 parser.add_argument(
     "--interval_checkpoint",
-    default=1E4,
+    default=10000,
     type=int,
     help="Number of training iterations between checkpoints.",
 )
@@ -61,12 +46,15 @@ aics_pipeline = quilt3.Package.browse(
     "aics/pipeline_integrated_cell", registry="s3://allencell"
 )
 
-#data_manifest = aics_pipeline["metadata.csv"]()
+data_manifest = aics_pipeline["metadata.csv"]()
+#data_manifest = pd.read_csv("/home/kathrine/pytorch_fnet/examples/metadata_unique.csv")
+# THE ROWS OF THE MANIFEST CORRESPOND TO CELLS, WE TRIM DOWN TO UNIQUIE FOVS
+unique_fov_indices = np.unique(data_manifest['FOVId'], return_index=True)[1]
+data_manifest = data_manifest.iloc[unique_fov_indices]
 
-data_manifest = pd.read_csv("/home/kathrine/pytorch_fnet/examples/metadata_unique.csv")
 # SELECT THE FIRST N_IMAGES_TO_DOWNLOAD
 #select images that match the Nuclear_envelope 
-only_Endoplasmic_Reticulum = data_manifest[data_manifest['StructureDisplayName']=='Endoplasmic reticulum']
+only_Endoplasmic_Reticulum = data_manifest.loc[data_manifest['StructureDisplayName']=='Endoplasmic reticulum']
 data_manifest = only_Endoplasmic_Reticulum.iloc[0:n_images_to_download]
 
 image_source_paths = data_manifest["SourceReadPath"]
@@ -125,7 +113,7 @@ with open(prefs_save_path, "r") as fp:
 # takes about 16 hours, go up to 250,000 for full training
 prefs["n_iter"] = int(args.n_iterations)
 prefs["interval_checkpoint"] = int(args.interval_checkpoint)
-prefs["fnet_model_kwargs"]['nn_kwargs'] = network_kwargs #set the network kwargs to fit the 2 channel
+#prefs["fnet_model_kwargs"]['nn_kwargs'] = network_kwargs #set the network kwargs to fit the 2 channel
 prefs["dataset_train"] = "fnet.data.MultiChTiffDataset"
 prefs["dataset_train_kwargs"] = {"path_csv": data_save_path_train}
 prefs["dataset_val"] = "fnet.data.MultiChTiffDataset"
