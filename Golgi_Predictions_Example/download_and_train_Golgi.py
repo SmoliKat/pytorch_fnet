@@ -106,7 +106,7 @@ prefs_save_path = Path(prefs_save_path)
 save_default_train_options(prefs_save_path)
 
 with open(prefs_save_path, "r") as fp:
-    prefs = json.load(fp)s
+    prefs = json.load(fp)
 
 # takes about 16 hours, go up to 250,000 for full training
 prefs["n_iter"] = int(args.n_iterations)
