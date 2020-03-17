@@ -28,7 +28,7 @@ args = parser.parse_args()
 ###################################################
 
 gpu_id = args.gpu_id
-n_images_to_download = args.n_imgs  # more images the better
+n_images_to_download = 2 #args.n_imgs  # more images the better
 train_fraction = 0.75
 
 image_save_dir = "{}/".format(os.getcwd())
