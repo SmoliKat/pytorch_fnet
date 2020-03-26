@@ -118,6 +118,7 @@ prefs["dataset_train"] = "fnet.data.MultiChTiffDataset"
 prefs["dataset_train_kwargs"] = {"path_csv": data_save_path_train}
 prefs["dataset_val"] = "fnet.data.MultiChTiffDataset"
 prefs["dataset_val_kwargs"] = {"path_csv": data_save_path_test}
+prefs["bpds_kwargs"] = {'buffer_size': 16, 'buffer_switch_interval': 2800, 'patch_shape': [2,32, 64, 64]}
 
 # This Fnet call will be updated as a python API becomes available
 

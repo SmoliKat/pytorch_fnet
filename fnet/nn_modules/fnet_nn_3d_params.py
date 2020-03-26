@@ -3,10 +3,10 @@ import torch
 
 class Net(torch.nn.Module):
     def __init__(
-            self, 
+            self, #*kwargs
             depth=4,
             mult_chan=32, 
-            in_channels=1, #update input Channels
+            in_channels=2, #update input Channels
             out_channels=1 #update output channels
             ):
         super().__init__()
