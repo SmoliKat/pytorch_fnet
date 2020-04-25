@@ -28,7 +28,7 @@ args = parser.parse_args()
 ###################################################
 
 gpu_id = args.gpu_id
-n_images_to_download = 2 #args.n_imgs  # more images the better
+n_images_to_download = args.n_imgs  # more images the better
 train_fraction = 0.75
 
 image_save_dir = "{}/".format(os.getcwd())
@@ -102,10 +102,10 @@ prefs_save_path = Path(prefs_save_path)
 
 save_default_train_options(prefs_save_path)
 
-network_kwargs = {"depth": 4,
-"mult_chan": 32,
-"in_channels": 2,
-"out_channels": 1}
+#network_kwargs = {"depth": 4,
+#"mult_chan": 32,
+#"in_channels": 2,
+#"out_channels": 1}
 
 with open(prefs_save_path, "r") as fp:
     prefs = json.load(fp)
@@ -118,7 +118,7 @@ prefs["dataset_train"] = "fnet.data.MultiChTiffDataset"
 prefs["dataset_train_kwargs"] = {"path_csv": data_save_path_train}
 prefs["dataset_val"] = "fnet.data.MultiChTiffDataset"
 prefs["dataset_val_kwargs"] = {"path_csv": data_save_path_test}
-prefs["bpds_kwargs"] = {'buffer_size': 16, 'buffer_switch_interval': 2800, 'patch_shape': [2,32, 64, 64]}
+prefs["bpds_kwargs"] = {'buffer_size': 16, 'buffer_switch_interval': 2800, 'patch_shape': [2, 32, 64, 64]}
 
 # This Fnet call will be updated as a python API becomes available
 

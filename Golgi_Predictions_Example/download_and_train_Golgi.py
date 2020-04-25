@@ -15,8 +15,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--gpu_id", default=0, type=int, help="GPU to use.")
 parser.add_argument("--n_imgs", default=40, type=int, help="Number of images to use.")
 parser.add_argument(
-    "--n_iterations", default=50000, type=int, help="Number of training iterations."
-)
+    "--n_iterations", default=50000, type=int, help="Number of training iterations.")
 parser.add_argument(
     "--interval_checkpoint",
     default=10000,
@@ -86,9 +85,7 @@ df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
 df["path_tiff"] = image_target_paths
 df["channel_signal"] = data_manifest["ChannelNumberBrightfield"].values
 df["channel_target"] = data_manifest["ChannelNumberStruct"].values #change the chanel to be the structure.
-#df["channel_target"] = data_manifest[
-#   "ChannelNumber405"
-#]  # this is the DNA channel for all FOVs
+#df["channel_target"] = data_manifest["ChannelNumber405"]  # this is the DNA channel for all FOVs
 
 n_train_images = int(n_images_to_download * train_fraction)
 df_train = df[:n_train_images]

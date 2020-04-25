@@ -73,12 +73,12 @@ class BufferedPatchDataset:
         for idx_c, component in enumerate(self.buffer[-1]):
             if shape_spatial is None:
                 shape_spatial = component.shape[-nd:]
-            elif component.shape[-nd:] != shape_spatial:
-                raise ValueError(
-                    f"Dataset item {idx_buf}, component {idx_c} shape "
-                    f"{component.shape} incompatible with first component "
-                    f"shape {self.buffer[-1][0].shape}"
-                )
+            #elif component.shape[-nd:] != shape_spatial:
+            #    raise ValueError(
+            #        f"Dataset item {idx_buf}, component {idx_c} shape "
+            #        f"{component.shape} incompatible with first component "
+            #        f"shape {self.buffer[-1][0].shape}"
+            #    )
             if nd > len(component.shape) or any(
                 self.patch_shape[d] > shape_spatial[d] for d in range(nd)
             ):

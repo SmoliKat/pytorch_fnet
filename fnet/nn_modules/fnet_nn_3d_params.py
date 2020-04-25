@@ -6,7 +6,7 @@ class Net(torch.nn.Module):
             self, #*kwargs
             depth=4,
             mult_chan=32, 
-            in_channels=2, #update input Channels
+            in_channels=3, #update input Channels
             out_channels=1 #update output channels
             ):
         super().__init__()
@@ -18,6 +18,8 @@ class Net(torch.nn.Module):
         self.net_recurse = _Net_recurse(
             n_in_channels=self.in_channels, mult_chan=self.mult_chan, depth_parent=self.depth, depth=self.depth
         )
+        #print(self.net_recurse)
+        #exit(0)
         self.conv_out = torch.nn.Conv3d(
             self.mult_chan, self.out_channels, kernel_size=3, padding=1
         )
