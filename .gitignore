@@ -123,6 +123,9 @@ Nuclear_Envelope_Predictions_Example/*.out
 2_Channels_examples/*/
 2_Channels_examples/*.csv
 2_Channels_examples/*.out
+3Ch_example/*/
+3Ch_example/*.csv
+3Ch_example/*.out
 test_model/
 .editorconfig
 data/*/
