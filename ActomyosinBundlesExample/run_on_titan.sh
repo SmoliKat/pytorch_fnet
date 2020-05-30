@@ -7,10 +7,10 @@
 ##SBATCH --mail-user=user@post.bgu.ac.il      ### users email for sending job status
 ##SBATCH --mail-type=BEGIN,END,FAIL             ### conditions when to send the email. ALL,BEGIN,END,FAIL, REQUEU, NONE
 #SBATCH --gres=gpu:1                ### number of GPUs (can't exceed 8 gpus for now) ask for more than 1 only if you can parallelize your code for multi GPU
-
+#SBATCH --nodelist=cs-1080-03  ###,cs-1080-01,cs-1080-02,cs-1080-03,ise-1080-02
 
 ### Start you code below ####
 module load anaconda              ### load anaconda module
 source activate AllenCellModeling         ### activating environment, environment must be configured before running the job
-python  download_and_train_Reticulum.py    ### execute jupyter lab command – replace with your own command e.g. ‘srun --mem=24G python my.py my_arg’ . you may use multiple srun lines, they are the job steps. --mem - the memory to allocate: use 24G x number of allocated GPUs
+python  dowload_and_train.py    ### execute jupyter lab command – replace with your own command e.g. ‘srun --mem=24G python my.py my_arg’ . you may use multiple srun lines, they are the job steps. --mem - the memory to allocate: use 24G x number of allocated GPUs
 ### --mem=24G

@@ -83,7 +83,7 @@ df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
 df["path_tiff"] = image_target_paths
 #df["channel_signal"] = data_manifest["ChannelNumberBrightfield"].values
 #df["channel_signal_helper"] = data_manifest["ChannelNumber405"].values# this is the DNA channel for all FOVs, added as second chunnel for prediction
-df["channel_signal"] = [ [a, b] for a, b in zip(data_manifest["ChannelNumberBrightfield"], data_manifest["ChannelNumber405"])]
+df["channel_signal"] = [ [a, b] for a, b in zip(data_manifest["ChannelNumberBrightfield"], data_manifest["ChannelNumberBrightfield"])]
 df["channel_target"] = data_manifest["ChannelNumberStruct"].values #change the chanel to be the structure.
 
 

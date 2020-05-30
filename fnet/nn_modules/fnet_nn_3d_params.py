@@ -6,7 +6,7 @@ class Net(torch.nn.Module):
             self, #*kwargs
             depth=4,
             mult_chan=32, 
-            in_channels=3, #update input Channels
+            in_channels=1, #update input Channels
             out_channels=1 #update output channels
             ):
         super().__init__()

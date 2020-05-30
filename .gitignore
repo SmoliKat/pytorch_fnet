@@ -108,6 +108,16 @@ ENV/
 # Project specific standalone files
 workbench.ipynb
 
+ActomyosinBundlesExample/*/
+ActomyosinBundlesExample/*.csv
+ActomyosinBundlesExample/*.out
+TightJunctionsExample/*/
+TightJunctionsExample/*.csv
+TightJunctionsExample/*.out
+utils/*/
+utils/*.csv
+utils/*.out
+TightJunctionsExample
 examples/*/
 examples/*.csv
 examples/*.out
