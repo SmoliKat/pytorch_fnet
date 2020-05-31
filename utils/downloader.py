@@ -68,7 +68,7 @@ def main():
         "-s", "--save-dir", type=Path, help="save dir", default="/storage/users/assafzar/fovs",
     )
     parser.add_argument("-n", "--num-images-download", type=int, help="how many images to download", default=1)
-    parser.add_argument("--structure-display-name", help="structure display name to download", required=False)
+    parser.add_argument("--structure-display-name", help="structure display name to download",  default="Endoplasmic reticulum",required=False)
     parser.add_argument("--channels-to-save", type=str, nargs='+', help="channels to save", default=["ChannelNumberBrightfield"])
     args = parser.parse_args()
 
@@ -81,7 +81,7 @@ def main():
 
     # SELECT THE FIRST N_IMAGES_TO_DOWNLOAD
     # select images that match the Nuclear_envelope
-    only_needed_data = data_manifest.loc[data_manifest['StructureDisplayName'] == 'Endoplasmic reticulum']
+    only_needed_data = data_manifest.loc[data_manifest['StructureDisplayName'] == args.structure_display_name]
     data_manifest = only_needed_data.iloc[0:args.num_images_download]
     image_source_paths = data_manifest["SourceReadPath"]
     image_target_paths = [
@@ -97,7 +97,7 @@ def main():
         if download_ok:
             channel_volumes_dict = transform_image_into_channel_volumes(image_target_path, channels_to_save)
             for channel_key, channel_volume in channel_volumes_dict.items():
-                save_path = os.path.join(args.save_dir, 'Endoplasmic reticulum',os.path.splitext(os.path.basename(image_source_path))[0])
+                save_path = os.path.join(args.save_dir, args.structure_display_name,os.path.splitext(os.path.basename(image_source_path))[0])
                 os.makedirs(save_path, exist_ok=True)
                 file_path = os.path.join(save_path,f'{channel_key}.tif')
                 tifffile.imsave(file_path, channel_volume, compress=2)
