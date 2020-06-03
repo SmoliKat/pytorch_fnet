@@ -28,7 +28,7 @@ args = parser.parse_args()
 ###################################################
 
 gpu_id = args.gpu_id
-n_images_to_download = 70  # more images the better
+n_images_to_download = 40  # more images the better
 train_fraction = 0.75
 
 image_save_dir = "{}/".format(os.getcwd())
@@ -54,7 +54,7 @@ data_manifest = data_manifest.iloc[unique_fov_indices]
 
 # SELECT THE FIRST N_IMAGES_TO_DOWNLOAD
 #select images that match the Nuclear_envelope 
-only_Endoplasmic_Reticulum = data_manifest.loc[data_manifest['StructureDisplayName']=='Actomyosin bundles']
+only_Endoplasmic_Reticulum = data_manifest.loc[data_manifest['StructureDisplayName']=='Desmosomes']
 data_manifest = only_Endoplasmic_Reticulum.iloc[0:n_images_to_download]
 
 image_source_paths = data_manifest["SourceReadPath"]
@@ -123,4 +123,4 @@ with open(prefs_save_path, "w") as fp:
 command_str = f"fnet train --json {prefs_save_path} --gpu_ids {gpu_id}"
 
 print(command_str)
-#os.system(command_str)
+os.system(command_str)

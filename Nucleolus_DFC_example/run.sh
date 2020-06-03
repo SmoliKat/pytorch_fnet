@@ -12,5 +12,5 @@
 ### Start you code below ####
 module load anaconda              ### load anaconda module
 source activate AllenCellModeling         ### activating environment, environment must be configured before running the job
-python  predict.py    ### execute jupyter lab command – replace with your own command e.g. ‘srun --mem=24G python my.py my_arg’ . you may use multiple srun lines, they are the job steps. --mem - the memory to allocate: use 24G x number of allocated GPUs
+python  dowload_and_train.py    ### execute jupyter lab command – replace with your own command e.g. ‘srun --mem=24G python my.py my_arg’ . you may use multiple srun lines, they are the job steps. --mem - the memory to allocate: use 24G x number of allocated GPUs
 ### --mem=24G
