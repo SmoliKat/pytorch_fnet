@@ -10,14 +10,19 @@ import secrets
 import numpy as np
 from fnet.cli.init import save_default_train_options
 BASEDIR = ''
+RANDOM_RUN = 'random'
+FIXED_INDEXES_RUN = 'fixed_indexes'
+FIRST_40_RUN = 'first_40'
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--gpu_id", default=0, type=int, help="GPU to use.")
 parser.add_argument("--n_imgs", default=40, type=int, help="Number of images to use.")
-parser.add_argument("--n_iterations", default=50000, type=int, help="Number of training iterations.")
+parser.add_argument("--n_iterations", default=40000, type=int, help="Number of training iterations.")
 parser.add_argument("--save_base_dir", default="/storage/users/assafzar/gil", type=str, help="savedir for images and models")
 parser.add_argument("--experiment_name", default="gil_day_to_day_var", type=str, help="experiment name for tracking")
+parser.add_argument("--date_range_indexes", help="date_range_indexes as a list 1,2,3 train and 4 is test" ,required=False)
+parser.add_argument("--exp_type", help='expermiment type , random, fixed_indexes, first_40 ', default=FIRST_40_RUN, choices=[RANDOM_RUN, FIXED_INDEXES_RUN, FIRST_40_RUN])
 parser.add_argument(
     "--interval_checkpoint",
     default=10000,
@@ -67,17 +72,43 @@ only_Endoplasmic_Reticulum['date'] = only_Endoplasmic_Reticulum['SourceReadPath'
 n_train_images = int(n_images_to_download * train_fraction)
 n_test_images = n_images_to_download - n_train_images
 unique_dates = only_Endoplasmic_Reticulum['date'].unique()
-train_date = secrets.choice(unique_dates)
-test_date = secrets.choice(unique_dates)
-print(f"train_date:{train_date} , test_date:{test_date}")
+print (f"unique dates : {unique_dates} and have {[{'date':unique_date , 'items': len(only_Endoplasmic_Reticulum.loc[only_Endoplasmic_Reticulum.date == unique_date]) }for unique_date in unique_dates ]}")
+date_range = unique_dates[2:6]
+if (args.exp_type == FIXED_INDEXES_RUN or args.exp_type == RANDOM_RUN):
+    if args.exp_type == FIXED_INDEXES_RUN:
+        date_indexes = json.loads(args.date_range_indexes)
 
-assert train_date != test_date, "train date and test date are the same date!"
+        print(f"train_date:{date_indexes[:3]} , test_date:{date_indexes[3]}")
+
+        test_index = date_indexes.pop()
+        X_train = pd.DataFrame(columns=[col for col in only_Endoplasmic_Reticulum.columns])
+        for index in date_indexes:
+            current_df = only_Endoplasmic_Reticulum.loc[only_Endoplasmic_Reticulum.date == date_range[index]].iloc[
+                      :int(n_train_images / 3)]
+            X_train = X_train.append(current_df)
+        X_test = only_Endoplasmic_Reticulum.loc[only_Endoplasmic_Reticulum.date == date_range[test_index]].iloc[
+                 :n_test_images]
+
+    else: #random run!
+        counter = 1
+        X_train = pd.DataFrame(columns=[col for col in only_Endoplasmic_Reticulum.columns])
+        X_test = pd.DataFrame(columns=[col for col in only_Endoplasmic_Reticulum.columns])
+        while counter<40:
+            for date in date_range:
+                item = only_Endoplasmic_Reticulum.loc[only_Endoplasmic_Reticulum.date == date].iloc[:1]
+                if counter<= n_train_images:
+                    X_train = X_train.append(item)
+                else:
+                    X_test = X_test.append(item)
+                counter+=1
+                only_Endoplasmic_Reticulum.drop(only_Endoplasmic_Reticulum.index[only_Endoplasmic_Reticulum.index.tolist().index(item.index[0])])
 
 
+    data_manifest = pd.concat([X_train,X_test])
 
-X_train = only_Endoplasmic_Reticulum.loc[only_Endoplasmic_Reticulum.date == train_date].iloc[:n_train_images]
-X_test = only_Endoplasmic_Reticulum.loc[only_Endoplasmic_Reticulum.date == test_date].iloc[:n_test_images]
-data_manifest = pd.concat([X_train,X_test])
+if (args.exp_type == FIRST_40_RUN):
+    data_manifest = only_Endoplasmic_Reticulum.iloc[0:n_images_to_download]
+
 image_source_paths = data_manifest["SourceReadPath"]
 image_target_paths = [
     "{}/{}".format(image_save_dir, image_source_path)
@@ -103,7 +134,7 @@ df = pd.DataFrame(columns=["path_tiff", "channel_signal", "channel_target"])
 df["path_tiff"] = image_target_paths
 df["channel_signal"] = data_manifest["ChannelNumberBrightfield"].values
 #df["channel_signal_helper"] = data_manifest["ChannelNumber405"].values# this is the DNA channel for all FOVs, added as second chunnel for prediction
-# df["channel_signal"] = [ [a,b] for a, b in zip(data_manifest["ChannelNumberBrightfield"], data_manifest["ChannelNumberBrightfield"])]
+#df["channel_signal"] = [ [a,b] for a, b in zip(data_manifest["ChannelNumberBrightfield"], data_manifest["ChannelNumberBrightfield"])]
 df["channel_target"] = data_manifest["ChannelNumberStruct"].values #change the chanel to be the structure.
 
 

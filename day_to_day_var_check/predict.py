@@ -16,9 +16,9 @@ args = parser.parse_args()
 gpu_id = args.gpu_id
 
 image_save_dir = args.save_base_dir
-model_save_dir = os.path.join(args.save_base_dir, args.experiment_name, 'models')
+model_save_dir = os.path.join(args.save_base_dir, args.experiment_name)
 predictions_save_dir = os.path.join(args.save_base_dir, args.experiment_name, 'predictions')
-
+os.makedirs(predictions_save_dir, exist_ok=True)
 
 # image_save_dir = "{}/images/".format(os.getcwd())
 # model_save_dir = "{}/model/".format(os.getcwd())
@@ -26,13 +26,16 @@ data_save_path_test = os.path.join(image_save_dir, args.experiment_name, "image_
 
 # data_save_path_test = "{}/image_list_test.csv".format(os.getcwd())
 
+# command_str = (
+#     f"""fnet predict --path_model_dir {model_save_dir} --dataset fnet.data.MultiChTiffDataset  --dataset_kwargs \'{{"path_csv": "{data_save_path_test}"}}\' --gpu_ids {gpu_id} """
+# )
 command_str = (
-    f"""fnet predict "
-    "--path_model_dir {model_save_dir} "
+    "fnet predict "
+    "--path_model_dir {} "
     "--dataset fnet.data.MultiChTiffDataset "
-    '--dataset_kwargs \'{{"path_csv": "{data_save_path_test}"}}\' '
-    "--gpu_ids {gpu_id} "
-    "--path_save_dir {predictions_save_dir}"""
+    '--dataset_kwargs \'{{"path_csv": "{}"}}\' '
+    "--gpu_ids {} "
+    "--path_save_dir {}".format(model_save_dir, data_save_path_test, gpu_id,predictions_save_dir)
 )
 
 print(command_str)
