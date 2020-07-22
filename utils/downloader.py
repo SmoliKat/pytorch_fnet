@@ -95,11 +95,12 @@ def main():
         counter = 0
         while counter < args.num_images_download:
             for date in date_range:
-                item = only_needed_data.loc[only_needed_data.date == date].iloc[:1]
-                df_to_download = df_to_download.append(item)
-                counter += 1
-                only_needed_data.drop(
-                    only_needed_data.index[only_needed_data.index.tolist().index(item.index[0])],inplace=True)
+                if len(only_needed_data.loc[only_needed_data.date == date])>1:
+                    item = only_needed_data.loc[only_needed_data.date == date].iloc[:1]
+                    df_to_download = df_to_download.append(item)
+                    counter += 1
+                    only_needed_data.drop(
+                        only_needed_data.index[only_needed_data.index.tolist().index(item.index[0])],inplace=True)
 
         data_manifest = df_to_download.iloc[0:args.num_images_download]
         image_source_paths = data_manifest["SourceReadPath"]
