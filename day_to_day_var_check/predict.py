@@ -8,7 +8,7 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--gpu_id", default=0, type=int, help="GPU to use.")
-parser.add_argument("--save_base_dir", default="/storage/users/assafzar/gil", type=str, help="savedir for images and models")
+parser.add_argument("--save_base_dir", default="/storage/users/assafzar/experiments/day_to_day", type=str, help="savedir for images and models")
 parser.add_argument("--experiment_name", default="gil_day_to_day_var", type=str, help="experiment name for tracking")
 args = parser.parse_args()
 
