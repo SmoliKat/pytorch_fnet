@@ -8,3 +8,4 @@ tqdm
 scikit-image>=0.15.0
 aicsimageio==3.0.7
 quilt3
+seaborn
