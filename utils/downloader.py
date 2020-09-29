@@ -119,6 +119,7 @@ def main():
             except OSError:
                 pass
 
+
         data_manifest.to_csv(os.path.join(args.save_dir, 'fovs', structure_display_name,f'{structure_display_name}.csv'),index=False)
         # channels_to_save = channel_field_names_to_numbers(data_manifest=data_manifest,
         #                                                   channels_to_save=args.channels_to_save)
